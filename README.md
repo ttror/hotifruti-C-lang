@@ -2,7 +2,6 @@
 
 ![Versão](https://img.shields.io/badge/versão-1.5.0%20Beta-blue)
 ![Linguagem](https://img.shields.io/badge/linguagem-C-brightgreen)
-![Licença](https://img.shields.io/badge/licença-MIT-yellow)
 
 Este repositório contém o código-fonte de um **sistema de gestão empresarial (ERP)** completo para um hortifruti de pequeno porte, desenvolvido inteiramente em **linguagem C**. O sistema oferece funcionalidades de controle de estoque, ponto de venda (PDV), gestão financeira, cadastro de usuários e integração com balança analógica.
 
@@ -10,6 +9,7 @@ Este repositório contém o código-fonte de um **sistema de gestão empresarial
 
 - [Visão Geral](#-visão-geral)
 - [Arquitetura do Sistema](#-arquitetura-do-sistema)
+- [Módulos do Sistema](#-módulos-do-sistema)
 - [Funcionalidades](#-funcionalidades)
 - [Telas do Sistema](#-telas-do-sistema)
 - [Estrutura de Arquivos](#-estrutura-de-arquivos)
@@ -17,8 +17,6 @@ Este repositório contém o código-fonte de um **sistema de gestão empresarial
 - [Credenciais de Acesso](#-credenciais-de-acesso)
 - [Banco de Dados](#-banco-de-dados)
 - [Dependências](#-dependências)
-- [Contribuindo](#-contribuindo)
-- [Licença](#-licença)
 
 ## 🎯 Visão Geral
 
@@ -36,38 +34,6 @@ O **Sistema ERP Hortifruti** foi desenvolvido para atender às necessidades de p
 ## 🏗️ Arquitetura do Sistema
 
 O sistema foi construído utilizando a linguagem C e a biblioteca **PDCurses** para a criação da interface de usuário em modo texto no console. A persistência dos dados é realizada através de arquivos binários com as extensões `.dat` para os dados e `.idx` para os índices, simulando um sistema de banco de dados relacional.
-
-### Módulos Principais
-
-#### 1. PimModulos.exe
-
-O módulo principal do sistema, que engloba duas áreas de operação:
-
-##### **Painel Administrativo (ADMIN)**
-Permite o gerenciamento completo do sistema, incluindo:
-- Gerenciamento de usuários (funcionários, clientes e fornecedores)
-- Controle de estoque de produtos
-- Gestão de campanhas promocionais
-- Módulo financeiro completo
-- Contas a pagar e receber
-- Relatórios gerenciais
-
-##### **Ponto de Venda (PDV)**
-Interface otimizada para operações de venda:
-- Adição de produtos ao carrinho (por nome ou ID)
-- Visualização do carrinho de compras
-- Finalização de vendas
-- Consulta de vendas anteriores
-- Cancelamento de vendas
-
-#### 2. balanca.exe
-
-Um executável independente que simula uma **balança analógica**. Este módulo:
-- Consulta o banco de dados de produtos
-- Permite a pesagem de produtos vendidos a granel
-- Gera tickets (recibos) com peso e valor
-- Não requer autenticação
-- Integra-se ao sistema principal através dos arquivos de dados compartilhados
 
 ### Fluxo de Operação
 
@@ -95,6 +61,157 @@ Um executável independente que simula uma **balança analógica**. Este módulo
                             │   (Login)       │
                             └─────────────────┘
 ```
+
+## 🔧 Módulos do Sistema
+
+O sistema é organizado de forma modular, facilitando a manutenção e evolução do código.
+
+### 1. Módulo de Autenticação (login.c / login.h)
+
+Responsável pelo controle de acesso ao sistema.
+
+**Funcionalidades:**
+- Sistema de login com usuário e senha
+- Interface colorida com PDCurses
+- Validação de credenciais
+- Redirecionamento para PDV ou ADMIN
+
+**Usuários padrão:**
+```c
+UsuarioLogin usuarios[] = {
+    {"admin", "admin", 1},
+    {"pdv", "pdv", 2}
+};
+```
+
+### 2. Módulo de Produtos (produto.c / produto.h)
+
+Gerenciamento completo do catálogo de produtos.
+
+**Estrutura de dados:**
+```c
+typedef struct {
+    int id;
+    char nome[MAX];
+    int quantidade;
+    double precoCusto;
+    double precoVenda;
+    char tipo[MAX];
+    char descricao[MAX];
+    bool vendidoAGranela;
+    double precoPorKilo;
+    char codigoBarras[MAX_CODIGO_BARRAS];
+    DataValidade validade;
+} Produto;
+```
+
+**Funcionalidades:**
+- Cadastro de produtos
+- Atualização de estoque
+- Busca por ID ou nome
+- Validação de data de validade
+- Suporte a produtos vendidos a granel
+
+### 3. Módulo de Vendas (vendas.c / vendas.h)
+
+Controle de todas as operações de venda.
+
+**Funcionalidades:**
+- Registro de vendas
+- Histórico de transações
+- Consulta de vendas por ID
+- Cancelamento de vendas
+- Integração com estoque
+
+### 4. Módulo de Carrinho (carrinho.c / carrinho.h)
+
+Sistema de carrinho de compras para o PDV.
+
+**Funcionalidades:**
+- Adicionar produtos ao carrinho
+- Remover produtos do carrinho
+- Visualizar itens no carrinho
+- Calcular total da compra
+- Limpar carrinho após finalização
+
+### 5. Módulo de Usuários
+
+#### Cliente (cliente.c / cliente.h)
+- Cadastro de clientes
+- Histórico de compras
+- Dados de contato
+
+#### Funcionário (funcionario.c / funcionario.h)
+- Cadastro de funcionários
+- Controle de acesso
+- Dados pessoais e profissionais
+
+#### Fornecedor (fornecedor.c / fornecedor.h)
+- Cadastro de fornecedores
+- Dados de contato
+- Histórico de compras
+
+### 6. Módulo Financeiro (financeiro.c / financeiro.h)
+
+Gestão financeira completa do estabelecimento.
+
+**Funcionalidades:**
+- Controle de fluxo de caixa
+- Registro de despesas
+- Relatórios de lucro/perda
+- Gráficos financeiros
+
+### 7. Módulo de Contas (contas.c / contas.h)
+
+Gerenciamento de contas a pagar e receber.
+
+**Funcionalidades:**
+- Contas a pagar para fornecedores
+- Contas a receber de clientes
+- Controle de vencimentos
+- Histórico de pagamentos
+
+### 8. Módulo de PDV (pdv.c)
+
+Interface do ponto de venda.
+
+**Funcionalidades:**
+- Interface otimizada para vendas rápidas
+- Busca de produtos por nome ou ID
+- Integração com carrinho
+- Finalização de vendas
+- Consulta de vendas anteriores
+
+### 9. Módulo de Balança (balanca.c)
+
+Sistema independente para pesagem de produtos.
+
+**Funcionalidades:**
+- Consulta de produtos por ID
+- Registro de peso
+- Geração de recibo em arquivo
+- Validação de estoque disponível
+- Não requer autenticação
+
+### 10. Módulo Principal (main.c / main.h)
+
+Ponto de entrada do sistema PimModulos.
+
+**Funcionalidades:**
+- Menu administrativo
+- Coordenação entre módulos
+- Inicialização do sistema
+- Gerenciamento de sessão
+
+### 11. Módulo de Link (link.c / link.h)
+
+Funções auxiliares e utilitárias compartilhadas entre módulos.
+
+**Funcionalidades:**
+- Funções de entrada/saída
+- Validações comuns
+- Formatação de dados
+- Utilitários gerais
 
 ## ⚡ Funcionalidades
 
@@ -150,7 +267,7 @@ A tela de login é a porta de entrada para os módulos de PDV e ADMIN do `PimMod
 - Use as setas para navegar entre as opções
 - Enter para selecionar
 
-### Menu Administrativo
+### Menu Administrativo (ADMIN)
 
 Após o login como administrador, o usuário tem acesso ao menu principal do painel administrativo, onde pode gerenciar as diversas áreas do sistema.
 
@@ -363,32 +480,9 @@ O arquivo `vcpkg.json` contém a configuração das dependências do projeto:
 }
 ```
 
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Para contribuir com o projeto:
-
-1. Faça um fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
-
-### Diretrizes de Contribuição
-
-- Mantenha o código limpo e bem documentado
-- Siga o padrão de codificação existente
-- Teste suas alterações antes de submeter
-- Atualize a documentação quando necessário
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
 ---
 
-**Desenvolvido por Solutions Copyright 2024**
+**Desenvolvido por ttror - Copyright 2024**
 
 **Versão:** Beta 1.5.0
-
-Para dúvidas ou sugestões, abra uma issue no repositório.
 
