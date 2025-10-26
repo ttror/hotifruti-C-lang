@@ -2,47 +2,68 @@
 
 Este é um projeto em linguagem C que simula um sistema de gestão para um hortifruti.
 
-## Compilação para Windows (MinGW-w64)
+## 💻 Compilação e Execução para Windows
 
-Para compilar este projeto no Windows, você precisará do **MinGW-w64** (um conjunto de ferramentas de desenvolvimento para Windows) e da biblioteca **PDCurses** para a interface de terminal.
+Para compilar e executar este projeto no Windows, é necessário instalar um ambiente de desenvolvimento que inclua o compilador C e as ferramentas de build (`make`).
 
-### 1. Instalação do MinGW-w64
+### 1. Preparação do Ambiente (Instalação do MinGW-w64 via MSYS2)
 
-Recomendamos o uso do **MSYS2** para gerenciar o MinGW-w64 e as dependências:
+A forma mais fácil de obter todas as ferramentas necessárias é através do **MSYS2**.
 
-1.  Baixe e instale o **MSYS2** a partir do site oficial.
-2.  Após a instalação, abra o **MSYS2 MinGW 64-bit**.
-3.  Instale o toolchain do C/C++ e o `make`:
-    ```bash
-    pacman -S mingw-w64-x86_64-toolchain make
-    ```
+1.  **Baixe e Instale o MSYS2:**
+    *   Vá para o site oficial do [MSYS2](https://www.msys2.org/).
+    *   Baixe o instalador e siga os passos de instalação padrão.
+
+2.  **Instale as Ferramentas de Compilação:**
+    *   Após a instalação, abra o **MSYS2 MinGW 64-bit** (este é o terminal que você usará para todos os comandos seguintes).
+    *   Instale o compilador C/C++ (`toolchain`) e o utilitário `make`:
+        ```bash
+        pacman -S mingw-w64-x86_64-toolchain make --noconfirm
+        ```
+
+3.  **Instale o Git (Opcional, mas Recomendado):**
+    *   Para clonar este repositório, instale o Git no ambiente MSYS2:
+        ```bash
+        pacman -S git --noconfirm
+        ```
 
 ### 2. Configuração do Projeto (PDCurses)
 
-O projeto depende da biblioteca PDCurses para a interface de terminal.
+O projeto utiliza a biblioteca **PDCurses** para criar a interface de texto. Esta biblioteca precisa ser compilada primeiro.
 
-1.  Clone o repositório do PDCursesMod (uma versão ativa e compatível com MinGW) no **diretório pai** do seu projeto `hotifruti-C-lang`:
-    ```bash
-    git clone https://github.com/Bill-Gray/PDCursesMod.git
-    ```
-2.  Compile a biblioteca estática (`curses.a`) do PDCursesMod. **Este passo é crucial para que o `make` do projeto principal funcione.**
-    ```bash
-    cd PDCursesMod/wincon
-    make -f Makefile curses.a
-    cd ../..
-    ```
-    *Isso criará o arquivo `curses.a` e o `curses.h` na pasta correta para a compilação.*
+1.  **Clone o PDCursesMod:**
+    *   No terminal **MSYS2 MinGW 64-bit**, navegue para o diretório onde você quer guardar o projeto (ex: `cd /c/Users/SeuUsuario/Documents`).
+    *   Clone o PDCursesMod (uma versão ativa e compatível com MinGW) no **diretório pai** do seu projeto `hotifruti-C-lang`:
+        ```bash
+        git clone https://github.com/Bill-Gray/PDCursesMod.git
+        ```
 
-### 3. Compilação do Projeto
+2.  **Compile o PDCurses:**
+    *   Compile a biblioteca estática (`curses.a`) do PDCursesMod:
+        ```bash
+        cd PDCursesMod/wincon
+        make -f Makefile curses.a
+        cd ../..
+        ```
+    *   *Este passo criará o arquivo `curses.a` e o `pdcurses.dll` necessários para a compilação e execução do seu projeto.*
 
-1.  Navegue até o diretório raiz do projeto `hotifruti-C-lang`:
-    ```bash
-    cd hotifruti-C-lang
-    ```
-2.  Execute o `make` para compilar:
-    ```bash
-    make
-    ```
+### 3. Compilação do Projeto Principal
+
+1.  **Clone o Repositório Principal:**
+    *   Se você ainda não o fez, clone o projeto `hotifruti-C-lang`:
+        ```bash
+        git clone https://github.com/ttror/hotifruti-C-lang.git
+        ```
+
+2.  **Compile o Projeto:**
+    *   Navegue até o diretório raiz do projeto:
+        ```bash
+        cd hotifruti-C-lang
+        ```
+    *   Execute o `make` para compilar:
+        ```bash
+        make
+        ```
 
 Isso irá gerar os executáveis:
 -   `hortifruti.exe` (Programa principal)
@@ -50,19 +71,26 @@ Isso irá gerar os executáveis:
 
 ### 4. Execução
 
-Para executar o programa principal, você precisará copiar o `pdcurses.dll` (que deve estar na pasta `PDCursesMod/wincon` após a compilação do PDCurses) para o mesmo diretório do `hortifruti.exe`.
+Para executar o programa, você precisa que a biblioteca dinâmica (`pdcurses.dll`) esteja no mesmo diretório do executável.
 
-```bash
-# Copie a DLL para o diretório de execução
-cp ../PDCursesMod/wincon/pdcurses.dll .
+1.  **Copie a DLL:**
+    ```bash
+    cp ../PDCursesMod/wincon/pdcurses.dll .
+    ```
 
-# Execute o programa
-./hortifruti.exe
-```
+2.  **Execute o Programa:**
+    ```bash
+    ./hortifruti.exe
+    ```
 
 **Observação:** O arquivo `balanca.exe` também precisará do `pdcurses.dll` para funcionar.
 
-## ⚠️ Diferença de Executáveis
+---
+## ⚠️ Informações Adicionais
 
-A versão original do Git usava `PimModulos.exe`. Esta versão corrigida usa `hortifruti.exe` como executável principal, conforme o seu pedido e o código-fonte.
+- **Executáveis Gerados:** O `make` gera `hortifruti.exe` e `balanca.exe`.
+- **Credenciais de Acesso Padrão:**
+    - **PDV:** `admin` / `admin`
+    - **ADMIN:** `admin` / `admin`
+- **Estrutura de Arquivos:** O projeto utiliza arquivos binários (`.dat` e `.idx`) para persistência de dados. Esses arquivos serão criados automaticamente na primeira execução.
 
