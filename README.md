@@ -1,6 +1,33 @@
 # hotifruti-C-lang
 
-Este é um projeto em linguagem C que simula um sistema de gestão para um hortifruti.
+Este é um projeto em linguagem C que simula um **Sistema de Gestão Empresarial (ERP)** completo para um hortifruti.
+
+## 🎯 Visão Geral do Sistema
+
+O sistema é dividido em dois executáveis principais:
+
+1.  **`hortifruti.exe` (Módulo Principal):** Contém o Ponto de Venda (PDV), o Menu Administrativo e todos os módulos de gestão (Produtos, Clientes, Financeiro, etc.).
+2.  **`balanca.exe` (Módulo de Balança):** Um módulo separado para operações de pesagem e geração de recibos.
+
+### 🔑 Credenciais de Acesso Padrão
+
+O módulo principal (`hortifruti.exe`) requer login. Use as seguintes credenciais:
+
+| Módulo | Usuário | Senha |
+|--------|---------|-------|
+| **ADMIN** | `admin` | `admin` |
+| **PDV** | `pdv` | `pdv` |
+
+### 🏗️ Arquitetura e Dependências
+
+O sistema utiliza:
+*   **Linguagem C** para o desenvolvimento.
+*   **PDCurses** para a interface de utilizador em modo texto (console).
+*   **Arquivos Binários** (`.dat` e `.idx`) para persistência de dados (simulando um banco de dados).
+
+---
+
+## 💻 Compilação e Execução para Windows
 
 ## 💻 Compilação e Execução para Windows
 
