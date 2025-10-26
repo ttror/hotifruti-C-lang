@@ -1,0 +1,54 @@
+.
+├── data
+├── docs
+│   ├── images
+│   │   ├── pasted_file_6NMXTM_image.png
+│   │   ├── pasted_file_QKlweM_image.png
+│   │   ├── pasted_file_mSY0Kt_image.png
+│   │   └── pasted_file_uBiguN_image.png
+│   └── ESTRUTURA.md
+├── include
+│   ├── core
+│   │   ├── link.h
+│   │   ├── login.h
+│   │   └── main.h
+│   ├── modules
+│   │   ├── carrinho.h
+│   │   ├── cliente.h
+│   │   ├── contas.h
+│   │   ├── financeiro.h
+│   │   ├── fornecedor.h
+│   │   ├── funcionario.h
+│   │   ├── pdv.h
+│   │   ├── produto.h
+│   │   └── vendas.h
+│   ├── utils
+│   └── balanca.h
+├── scripts
+│   ├── build.bat
+│   └── build.sh
+├── src
+│   ├── core
+│   │   ├── link.c
+│   │   ├── login.c
+│   │   └── main.c
+│   ├── modules
+│   │   ├── carrinho.c
+│   │   ├── cliente.c
+│   │   ├── contas.c
+│   │   ├── financeiro.c
+│   │   ├── fornecedor.c
+│   │   ├── funcionario.c
+│   │   ├── pdv.c
+│   │   ├── produto.c
+│   │   └── vendas.c
+│   ├── utils
+│   └── balanca.c
+├── Makefile
+├── PimModulos.pro
+├── README.md
+├── RESUMO_PROJETO.md
+├── estrutura_visual.txt
+└── vcpkg.json
+
+12 directories, 39 files
