@@ -1,0 +1,22 @@
+# Arquivos de build e executáveis
+build/
+*.exe
+*.o
+
+# Arquivos de usuário do Qt Creator
+*.pro.user*
+
+# Arquivos de banco de dados
+*.dat
+*.idx
+
+# Arquivos de sistema
+desktop.ini
+
+# DLLs e dependências
+*.dll
+
+# Arquivos temporários
+*~
+*.TMP
+
