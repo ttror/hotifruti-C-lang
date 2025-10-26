@@ -303,7 +303,7 @@ Funções auxiliares e utilitárias compartilhadas entre módulos.
 
 Esta tela pertence ao `balanca.exe` e é utilizada para pesar os produtos. O operador digita o ID do produto, o sistema o localiza no banco de dados e, em seguida, o peso é inserido para gerar um recibo.
 
-![Tela da Balança](docs/images/tela-balanca.png)
+![Tela da Balança](docs/images/telabalanca.png)
 
 **Operações disponíveis:**
 - `[A]` - Digite o ID do produto
@@ -313,7 +313,7 @@ Esta tela pertence ao `balanca.exe` e é utilizada para pesar os produtos. O ope
 
 A tela de login é a porta de entrada para os módulos de PDV e ADMIN do `PimModulos.exe`. Utiliza a biblioteca PDCurses para criar uma interface colorida e interativa.
 
-![Tela de Login](docs/images/tela-login.png)
+![Tela de Login](docs/images/telalogin.png)
 
 **Navegação:**
 - Use as setas para navegar entre as opções
@@ -323,7 +323,7 @@ A tela de login é a porta de entrada para os módulos de PDV e ADMIN do `PimMod
 
 Após o login como administrador, o usuário tem acesso ao menu principal do painel administrativo, onde pode gerenciar as diversas áreas do sistema.
 
-![Menu Administrativo](docs/images/tela-menu-admin.png)
+![Menu Administrativo (ADMIN)](docs/images/telaadmin.png)
 
 **Opções do menu:**
 - `[1]` - Gerenciar Usuários
@@ -337,7 +337,7 @@ Após o login como administrador, o usuário tem acesso ao menu principal do pai
 
 Esta é a tela principal do Ponto de Venda, onde o operador pode adicionar produtos ao carrinho, visualizar o carrinho, finalizar a venda, consultar vendas anteriores e cancelar uma venda em andamento.
 
-![Ponto de Venda (PDV)](docs/images/tela-pdv.png)
+![Ponto de Venda (PDV)](docs/images/telapdv.png)
 
 **Operações disponíveis:**
 - `[1]` - Adicionar Produto ao Carrinho
