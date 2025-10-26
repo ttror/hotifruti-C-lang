@@ -9,10 +9,10 @@ Este repositório contém o código-fonte de um **sistema de gestão empresarial
 
 - [Visão Geral](#-visão-geral)
 - [Arquitetura do Sistema](#-arquitetura-do-sistema)
+- [Estrutura Modular](#-estrutura-modular)
 - [Módulos do Sistema](#-módulos-do-sistema)
 - [Funcionalidades](#-funcionalidades)
 - [Telas do Sistema](#-telas-do-sistema)
-- [Estrutura de Arquivos](#-estrutura-de-arquivos)
 - [Compilação e Execução](#-compilação-e-execução)
 - [Credenciais de Acesso](#-credenciais-de-acesso)
 - [Banco de Dados](#-banco-de-dados)
@@ -26,10 +26,13 @@ O **Sistema ERP Hortifruti** foi desenvolvido para atender às necessidades de p
 
 - **Interface em modo texto (Console)** utilizando a biblioteca PDCurses
 - **Banco de dados em arquivos binários** (.dat e .idx)
+- **Arquitetura modular** com separação clara de responsabilidades
 - **Dois módulos independentes** mas integrados
 - **Sistema de autenticação** com controle de acesso
 - **Geração de códigos de barras** através da biblioteca Zint
 - **Relatórios financeiros** e de vendas
+- **Scripts de build** para Windows e Linux/macOS
+- **Makefile** para compilação automatizada
 
 ## 🏗️ Arquitetura do Sistema
 
@@ -61,6 +64,55 @@ O sistema foi construído utilizando a linguagem C e a biblioteca **PDCurses** p
                             │   (Login)       │
                             └─────────────────┘
 ```
+
+## 📂 Estrutura Modular
+
+O projeto foi organizado de forma modular para facilitar a manutenção, escalabilidade e colaboração:
+
+```
+hortifruti/
+│
+├── src/                      # Código-fonte (.c)
+│   ├── core/                 # Núcleo do sistema
+│   │   ├── main.c           # Ponto de entrada
+│   │   ├── login.c          # Autenticação
+│   │   └── link.c           # Funções auxiliares
+│   │
+│   ├── modules/              # Módulos de negócio
+│   │   ├── produto.c        # Produtos
+│   │   ├── vendas.c         # Vendas
+│   │   ├── carrinho.c       # Carrinho
+│   │   ├── cliente.c        # Clientes
+│   │   ├── funcionario.c    # Funcionários
+│   │   ├── fornecedor.c     # Fornecedores
+│   │   ├── financeiro.c     # Financeiro
+│   │   ├── contas.c         # Contas
+│   │   └── pdv.c            # PDV
+│   │
+│   └── balanca.c            # Balança
+│
+├── include/                  # Headers (.h)
+│   ├── core/                # Headers do núcleo
+│   ├── modules/             # Headers dos módulos
+│   └── balanca.h            # Header da balança
+│
+├── build/                    # Arquivos compilados
+├── data/                     # Banco de dados
+├── docs/                     # Documentação
+│   ├── images/              # Imagens das telas
+│   └── ESTRUTURA.md         # Documentação da estrutura
+│
+├── scripts/                  # Scripts de build
+│   ├── build.sh             # Linux/macOS
+│   └── build.bat            # Windows
+│
+├── Makefile                  # Build automatizado
+├── PimModulos.pro           # Projeto Qt Creator
+├── vcpkg.json               # Dependências
+└── README.md                # Este arquivo
+```
+
+Para mais detalhes sobre a estrutura, consulte [docs/ESTRUTURA.md](docs/ESTRUTURA.md).
 
 ## 🔧 Módulos do Sistema
 
@@ -171,7 +223,7 @@ Gerenciamento de contas a pagar e receber.
 - Controle de vencimentos
 - Histórico de pagamentos
 
-### 8. Módulo de PDV (pdv.c)
+### 8. Módulo de PDV (pdv.c / pdv.h)
 
 Interface do ponto de venda.
 
@@ -182,7 +234,7 @@ Interface do ponto de venda.
 - Finalização de vendas
 - Consulta de vendas anteriores
 
-### 9. Módulo de Balança (balanca.c)
+### 9. Módulo de Balança (balanca.c / balanca.h)
 
 Sistema independente para pesagem de produtos.
 
@@ -251,7 +303,7 @@ Funções auxiliares e utilitárias compartilhadas entre módulos.
 
 Esta tela pertence ao `balanca.exe` e é utilizada para pesar os produtos. O operador digita o ID do produto, o sistema o localiza no banco de dados e, em seguida, o peso é inserido para gerar um recibo.
 
-![Tela da Balança](pasted_file_mSY0Kt_image.png)
+![Tela da Balança](docs/images/pasted_file_mSY0Kt_image.png)
 
 **Operações disponíveis:**
 - `[A]` - Digite o ID do produto
@@ -261,7 +313,7 @@ Esta tela pertence ao `balanca.exe` e é utilizada para pesar os produtos. O ope
 
 A tela de login é a porta de entrada para os módulos de PDV e ADMIN do `PimModulos.exe`. Utiliza a biblioteca PDCurses para criar uma interface colorida e interativa.
 
-![Tela de Login](pasted_file_6NMXTM_image.png)
+![Tela de Login](docs/images/pasted_file_6NMXTM_image.png)
 
 **Navegação:**
 - Use as setas para navegar entre as opções
@@ -271,7 +323,7 @@ A tela de login é a porta de entrada para os módulos de PDV e ADMIN do `PimMod
 
 Após o login como administrador, o usuário tem acesso ao menu principal do painel administrativo, onde pode gerenciar as diversas áreas do sistema.
 
-![Menu Administrativo](pasted_file_QKlweM_image.png)
+![Menu Administrativo](docs/images/pasted_file_QKlweM_image.png)
 
 **Opções do menu:**
 - `[1]` - Gerenciar Usuários
@@ -285,7 +337,7 @@ Após o login como administrador, o usuário tem acesso ao menu principal do pai
 
 Esta é a tela principal do Ponto de Venda, onde o operador pode adicionar produtos ao carrinho, visualizar o carrinho, finalizar a venda, consultar vendas anteriores e cancelar uma venda em andamento.
 
-![Ponto de Venda (PDV)](pasted_file_uBiguN_image.png)
+![Ponto de Venda (PDV)](docs/images/pasted_file_uBiguN_image.png)
 
 **Operações disponíveis:**
 - `[1]` - Adicionar Produto ao Carrinho
@@ -295,38 +347,6 @@ Esta é a tela principal do Ponto de Venda, onde o operador pode adicionar produ
 - `[5]` - Cancelar Venda
 - `[0]` - Sair
 
-## 📁 Estrutura de Arquivos
-
-```
-hortifruti/
-│
-├── balanca.c              # Código principal do módulo de balança
-├── main.c                 # Ponto de entrada do PimModulos
-├── main.h                 # Cabeçalho principal
-│
-├── login.c / login.h      # Sistema de autenticação
-├── pdv.c                  # Módulo de ponto de venda
-│
-├── produto.c / produto.h  # Gerenciamento de produtos
-├── vendas.c / vendas.h    # Gerenciamento de vendas
-├── carrinho.c / carrinho.h # Sistema de carrinho de compras
-│
-├── cliente.c / cliente.h  # Cadastro de clientes
-├── funcionario.c / funcionario.h # Cadastro de funcionários
-├── fornecedor.c / fornecedor.h   # Cadastro de fornecedores
-│
-├── financeiro.c / financeiro.h   # Módulo financeiro
-├── contas.c / contas.h           # Contas a pagar/receber
-│
-├── link.c / link.h        # Funções auxiliares de ligação
-│
-├── PimModulos.pro         # Arquivo de projeto Qt Creator
-├── vcpkg.json             # Configuração de dependências
-│
-├── .gitignore             # Arquivos ignorados pelo Git
-└── README.md              # Este arquivo
-```
-
 ## 🔧 Compilação e Execução
 
 ### Pré-requisitos
@@ -334,6 +354,7 @@ hortifruti/
 Para compilar o projeto, você precisa ter instalado:
 
 - **Compilador C**: GCC (Linux/macOS) ou MinGW (Windows)
+- **Make** (opcional, para usar o Makefile)
 - **Qt Creator** (opcional, para facilitar a compilação)
 - **vcpkg** (gerenciador de pacotes C/C++)
 
@@ -361,34 +382,84 @@ bootstrap-vcpkg.bat   # Windows
 ./vcpkg install pdcurses zint fmt
 ```
 
+### Compilação com Makefile
+
+```bash
+# Compilar todos os executáveis
+make
+
+# Compilar e executar PimModulos
+make run-pim
+
+# Compilar e executar Balança
+make run-balanca
+
+# Limpar arquivos compilados
+make clean
+
+# Ver ajuda
+make help
+```
+
+### Compilação com Scripts
+
+#### Linux/macOS
+
+```bash
+chmod +x scripts/build.sh
+./scripts/build.sh
+```
+
+#### Windows
+
+```cmd
+scripts\build.bat
+```
+
 ### Compilação Manual
 
 #### Linux/macOS
 
 ```bash
-gcc -o PimModulos main.c login.c pdv.c produto.c vendas.c carrinho.c \
-    cliente.c funcionario.c fornecedor.c financeiro.c contas.c link.c \
-    -lpdcurses -lzint -lfmt
+# Criar diretórios
+mkdir -p build/core build/modules data
 
-gcc -o balanca balanca.c produto.c link.c -lpdcurses
+# Compilar PimModulos
+gcc -Wall -Wextra -Iinclude -Iinclude/core -Iinclude/modules \
+    src/core/main.c src/core/login.c src/core/link.c \
+    src/modules/produto.c src/modules/vendas.c src/modules/carrinho.c \
+    src/modules/cliente.c src/modules/funcionario.c src/modules/fornecedor.c \
+    src/modules/financeiro.c src/modules/contas.c src/modules/pdv.c \
+    -o PimModulos -lpdcurses -lzint -lfmt
+
+# Compilar Balança
+gcc -Wall -Wextra -Iinclude -Iinclude/core -Iinclude/modules \
+    src/balanca.c src/modules/produto.c src/core/link.c \
+    -o balanca -lpdcurses
 ```
 
 #### Windows (MinGW)
 
-```bash
-gcc -o PimModulos.exe main.c login.c pdv.c produto.c vendas.c carrinho.c \
-    cliente.c funcionario.c fornecedor.c financeiro.c contas.c link.c \
-    -lpdcurses -lzint -lfmt
+```cmd
+gcc -Wall -Wextra -Iinclude -Iinclude\core -Iinclude\modules ^
+    src\core\main.c src\core\login.c src\core\link.c ^
+    src\modules\produto.c src\modules\vendas.c src\modules\carrinho.c ^
+    src\modules\cliente.c src\modules\funcionario.c src\modules\fornecedor.c ^
+    src\modules\financeiro.c src\modules\contas.c src\modules\pdv.c ^
+    -o PimModulos.exe -lpdcurses -lzint -lfmt
 
-gcc -o balanca.exe balanca.c produto.c link.c -lpdcurses
+gcc -Wall -Wextra -Iinclude -Iinclude\core -Iinclude\modules ^
+    src\balanca.c src\modules\produto.c src\core\link.c ^
+    -o balanca.exe -lpdcurses
 ```
 
 ### Compilação com Qt Creator
 
 1. Abra o arquivo `PimModulos.pro` no Qt Creator
 2. Configure o kit de compilação (MinGW ou GCC)
-3. Clique em "Build" → "Build Project"
-4. Os executáveis serão gerados na pasta `build/`
+3. Ajuste os caminhos de include no arquivo `.pro` se necessário
+4. Clique em "Build" → "Build Project"
+5. Os executáveis serão gerados na pasta `build/`
 
 ### Execução
 
@@ -430,6 +501,8 @@ balanca.exe
 O sistema utiliza um método de armazenamento de dados baseado em **arquivos binários**. Cada tipo de dado é armazenado em um arquivo `.dat`, e para otimizar as buscas, são utilizados arquivos de índice `.idx`.
 
 ### Arquivos de Dados
+
+Todos os arquivos de dados são armazenados no diretório `data/`:
 
 | Arquivo | Descrição |
 |---------|-----------|

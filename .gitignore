@@ -2,21 +2,33 @@
 build/
 *.exe
 *.o
+*.out
 
 # Arquivos de usuário do Qt Creator
 *.pro.user*
 
-# Arquivos de banco de dados
-*.dat
-*.idx
+# Arquivos de banco de dados (não versionar dados sensíveis)
+data/*.dat
+data/*.idx
 
 # Arquivos de sistema
 desktop.ini
+.DS_Store
 
-# DLLs e dependências
+# DLLs e dependências (podem ser baixadas via vcpkg)
 *.dll
 
 # Arquivos temporários
 *~
 *.TMP
+*.tmp
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Backups
+*.bak
+*.backup
 
