@@ -1,4 +1,4 @@
-# Sistema de ERP para Hortifruti em Linguagem C
+# Sistema de ERP para Hortifruti em Linguagem C -
 
 ![Versão](https://img.shields.io/badge/versão-1.5.0%20Beta-blue)
 ![Linguagem](https://img.shields.io/badge/linguagem-C-brightgreen)
