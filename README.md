@@ -60,7 +60,7 @@ O sistema foi construído utilizando a linguagem C e a biblioteca **PDCurses** p
                             └────────┬────────┘           │
                                      │                    │
                             ┌────────▼────────┐           │
-                            │ PimModulos.exe  │───────────┘
+                            │ hortifruti.exe  │───────────┘
                             │   (Login)       │
                             └─────────────────┘
 ```
